@@ -29,9 +29,9 @@ python make_train_list.py
 4.training from scratch
 ```python
 mkdir model
-python text_deep_ocr_bucketing.py \--data_root icdar2013 \--save_prefix ic13
+python text_deep_ocr_bucketing.py /--data_root icdar2013 /--save_prefix ic13
 ```
 Your can also resume training procedure using
 ```python
-python text_deep_ocr_bucketing_resume.py \--data_root icdar2013 \--save_prefix ic13_resume \--load_prefix ic13 \--epoch 1
+python text_deep_ocr_bucketing_resume.py /--data_root icdar2013 /--save_prefix ic13_resume /--load_prefix ic13 /--epoch 1
 ```
