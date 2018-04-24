@@ -15,6 +15,7 @@ So the MXnet Version must >= 0.10.0. I use 0.10.1 and it works.
 ## Training
 
 1.put your own dataset in a folder, e.g.icdar2013
+
 2.put text label into a txt file, eg.icdar2013_gt.txt, the content should as follows, image name and label should be separated by blank.
 ```python
 word_1.png proper
