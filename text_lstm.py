@@ -23,7 +23,6 @@ def resnet(data):
     shortcut1 = mx.sym.Convolution(data=data, num_filter=64, kernel=(1,1), no_bias=True, name='short_cut1')
     group1=conv2 + shortcut1                                     
     relu2 = mx.symbol.Activation(data=group1, act_type="relu")
-    #bn1 = mx.sym.BatchNorm(name='batchnorm1',data=relu2, fix_gamma=False)
     pool1 = mx.symbol.Pooling(data=relu2, pool_type="max", kernel=(2,2), stride=(2, 2))
 
     conv3 = mx.symbol.Convolution(name='conv3',data=pool1, kernel=(3,3), num_filter=128,pad=(1,1))
@@ -75,7 +74,6 @@ def lstm(num_hidden, indata, prev_state, param, seqidx, layeridx):
 def multilayer_bi_lstm_unroll_new(seq_len,
                 num_hidden, num_label,batch_size,num_lstm_layer,dropout=0):
     shape = {"data" : (32, 3, 32, 32)}
-    # embeding layer
     data = mx.sym.Variable('data')
     label = mx.sym.Variable('label')
     from importlib import import_module
@@ -127,6 +125,8 @@ def multilayer_bi_lstm_unroll_new(seq_len,
                           seqidx=k, layeridx=0)
         hidden = next_state.h
         last_states[1] = next_state
+        if dropout > 0.:
+            hidden = mx.sym.Dropout(data=hidden, p=dropout)
         backward_hidden.insert(0, hidden)
     hidden_all = []
     for i in range(seq_len):
@@ -135,6 +135,8 @@ def multilayer_bi_lstm_unroll_new(seq_len,
     forward_hidden = []
     for seqidx in range(seq_len):
         hidden =mx.sym.Flatten(data=hidden_all[seqidx])
+        if dropout > 0.:
+            hidden = mx.sym.Dropout(data=hidden, p=dropout)
         next_state = lstm(num_hidden, indata=hidden,
                           prev_state=last_states[2],
                           param=forward_param_cells[1],
@@ -148,6 +150,8 @@ def multilayer_bi_lstm_unroll_new(seq_len,
     for seqidx in range(seq_len):
         k = seq_len - seqidx - 1
         hidden =mx.sym.Flatten(data=hidden_all[k])
+        if dropout > 0.:
+            hidden = mx.sym.Dropout(data=hidden, p=dropout)
         next_state = lstm(num_hidden, indata=hidden,
                           prev_state=last_states[3],
                           param=backward_param_cells[1],
