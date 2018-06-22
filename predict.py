@@ -109,8 +109,7 @@ if __name__ == '__main__':
     init_state_names = [x[0] for x in init_states]
     init_state_arrays = [mx.nd.zeros(x[1]) for x in init_states]
     provide_data = [('data', (BATCH_SIZE, 3, 32, 800))] + init_states
-    provide_label = [('label', (BATCH_SIZE, num_label))]
-	
+    provide_label = [('label', (BATCH_SIZE, num_label))]	
     model = mx.mod.BucketingModule(sym_gen=sym_gen,default_bucket_key=100,context=contexts)
     sym, arg_params, aux_params = mx.model.load_checkpoint(prefix, n_epoch_load)
     model.bind(data_shapes=provide_data,label_shapes=provide_label, for_training=False)
