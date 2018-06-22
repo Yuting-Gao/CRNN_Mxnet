@@ -37,7 +37,6 @@ def ctc_label(p):
             continue
         ret.append(c2)
     return ret
-
 def remove_blank(l):
     ret = []
     for i in range(len(l)):
