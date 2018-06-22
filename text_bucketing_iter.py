@@ -13,6 +13,7 @@ def default_read_content(path):
         content.pop()
         return content
 
+
 def get_path_from_content(content,num_label):
     paths=[]
     for line in content:
@@ -20,6 +21,7 @@ def get_path_from_content(content,num_label):
         path=line.split('\t')[-1]
         paths.append(path)
     return paths
+
 
 def get_label_from_content(content,num_label):
     labels=[]
